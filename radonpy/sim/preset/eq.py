@@ -77,6 +77,8 @@ class Equilibration(preset.Preset):
         md.angle_style = self.angle_style
         md.dihedral_style = self.dihedral_style
         md.improper_style = self.improper_style
+        if hasattr(self, 'mpair_style'):
+            md.nocoeff = True
         md.log_file = kwargs.get('log_file', self.log_file1)
         md.dat_file = kwargs.get('dat_file', self.dat_file1)
         md.dump_file = kwargs.get('dump_file', self.dump_file1)
