@@ -27,6 +27,7 @@ class MD():
         self.rst1_file = kwargs.get('rst1_file', 'radon_md_1.rst' if self.idx is None else 'radon_md_1_%i.rst' % self.idx)
         self.rst2_file = kwargs.get('rst2_file', 'radon_md_2.rst' if self.idx is None else 'radon_md_2_%i.rst' % self.idx)
         self.outstr = kwargs.get('outstr', 'radon_md_last.dump' if self.idx is None else 'radon_md_last_%i.dump' % self.idx)
+        self.nocoeff = kwargs.get('nocoeff', False)
         self.write_data = kwargs.get('write_data', 'radon_md_last.data' if self.idx is None else 'radon_md_last_%i.data' % self.idx)
 
         self.dump_freq = kwargs.get('dump_freq', 1000)
