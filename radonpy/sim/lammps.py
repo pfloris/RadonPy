@@ -367,23 +367,37 @@ class LAMMPS():
 
         indata.append('')
         if md.pbc:
-            indata.append('pair_style %s %s %s' % (md.pair_style, str(md.cutoff_in), str(md.cutoff_out)))
-            indata.append('kspace_style %s %s' % (md.kspace_style, md.kspace_style_accuracy))
+            if hasattr(md, 'mpair_style'):
+                indata.append(f'pair_style {md.mpair_style}')
+                indata.append(f'pair_coeff * * {md.mlip_file} {md.mlip_ptypes}')
+                indata.append('dielectric %f' % (md.dielectric))
+                indata.append('bond_style %s' % (md.mbond_style))
+                indata.append('angle_style %s' % (md.mangle_style))
+                indata.append('dihedral_style %s' % (md.mdihedral_style))
+                indata.append('improper_style %s' % (md.mimproper_style))
+            else:
+                indata.append('pair_style %s %s %s' % (md.pair_style, str(md.cutoff_in), str(md.cutoff_out)))
+                indata.append('kspace_style %s %s' % (md.kspace_style, md.kspace_style_accuracy))
+                indata.append('dielectric %f' % (md.dielectric))
+                indata.append('bond_style %s' % (md.bond_style))
+                indata.append('angle_style %s' % (md.angle_style))
+                indata.append('dihedral_style %s' % (md.dihedral_style))
+                indata.append('improper_style %s' % (md.improper_style))
         else:
             indata.append('pair_style %s %s %s' % (md.pair_style_nonpbc, str(md.cutoff_in), str(md.cutoff_out)))
+            indata.append('dielectric %f' % (md.dielectric))
+            indata.append('bond_style %s' % (md.bond_style))
+            indata.append('angle_style %s' % (md.angle_style))
+            indata.append('dihedral_style %s' % (md.dihedral_style))
+            indata.append('improper_style %s' % (md.improper_style))
 
-        indata.append('dielectric %f' % (md.dielectric))
-        indata.append('bond_style %s' % (md.bond_style))
-        indata.append('angle_style %s' % (md.angle_style))
-        indata.append('dihedral_style %s' % (md.dihedral_style))
-        indata.append('improper_style %s' % (md.improper_style))
         indata.append('special_bonds %s' % (md.special_bonds))
         indata.append('pair_modify %s' % (md.pair_modify))
         indata.append('neighbor %s' % (md.neighbor))
         indata.append('neigh_modify %s' % (md.neigh_modify))
         indata.append('read_data %s' % (md.dat_file))
         indata.append('')
-        indata.append('thermo_style custom %s' % ' '.join(md.thermo_style))
+        indata.append('thermo_style %s' % (md.thermo_style))
         indata.append('thermo_modify flush yes')
         indata.append('thermo %i' % (md.thermo_freq))
 
@@ -645,19 +659,10 @@ class LAMMPS():
                     indata.append('fix momentum%i all momentum 1000 linear 1 1 1 rescale' % (i+1))
                     unfix.append('unfix momentum%i' % (i+1))
 
-                # Update thermo_style
-                indata.append('')
-                indata.append('# Update thermo_style')
-                self.update_thermo_style(md, wf, i, indata, unfix)
 
-                if wf.rerun:
-                    indata.append('')
-                    indata.append('rerun %s %s' % (wf.rerun_dump, wf.rerun_keyword))
-                else:
-                    indata.append('')
-                    indata.append('run %i' % (wf.step))
-                    
-                indata.append('unfix md%i' % (i+1))    
+                indata.append('')
+                indata.append('run %i' % (wf.step))
+                indata.append('unfix md%i' % (i+1))
                 indata.extend(unfix)
                 if len(wf.add_f) > 0:
                     indata.extend(wf.add_f)
@@ -667,10 +672,12 @@ class LAMMPS():
             indata.append('run 0')
 
         indata.append('')
-        if md.outstr:
-            indata.append('write_dump all custom %s id x y z xu yu zu vx vy vz fx fy fz modify sort id' % (md.outstr))
+        indata.append('write_dump all custom %s id x y z xu yu zu vx vy vz fx fy fz modify sort id' % (md.outstr))
         if md.write_data:
-            indata.append('write_data %s' % (md.write_data))
+            if md.nocoeff == False:
+                indata.append('write_data %s' % (md.write_data))
+            else:
+                indata.append('write_data %s nocoeff' % (md.write_data))
 
         if len(md.add_f) > 0:
             indata.append('')
