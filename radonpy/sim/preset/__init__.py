@@ -56,3 +56,15 @@ class Preset():
         if self.mol.HasProp('improper_style'):
             self.improper_style = self.mol.GetProp('improper_style')
 
+        if self.mol.HasProp('mpair_style'):
+            self.mpair_style = self.mol.GetProp('mpair_style')
+            self.mlip_file = self.mol.GetProp('mlip_file')
+            self.mlip_ptypes = self.mol.GetProp('mlip_ptypes')
+        if self.mol.HasProp('mbond_style'):
+            self.mbond_style = self.mol.GetProp('mbond_style')
+        if self.mol.HasProp('mangle_style'):
+            self.mangle_style = self.mol.GetProp('mangle_style')
+        if self.mol.HasProp('mdihedral_style'):
+            self.mdihedral_style = self.mol.GetProp('mdihedral_style')
+        if self.mol.HasProp('mimproper_style'):
+            self.mimproper_style = self.mol.GetProp('mimproper_style')
