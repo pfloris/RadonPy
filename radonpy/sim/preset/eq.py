@@ -154,15 +154,24 @@ class Equilibration(preset.Preset):
 
         p_dump = 1000
         md = MD()
-        md.pair_style = self.pair_style
-        md.cutoff_in = self.cutoff_in
-        md.cutoff_out = self.cutoff_out
-        md.kspace_style = self.kspace_style
-        md.kspace_style_accuracy = self.kspace_style_accuracy
-        md.bond_style = self.bond_style
-        md.angle_style = self.angle_style
-        md.dihedral_style = self.dihedral_style
-        md.improper_style = self.improper_style
+        if not hasattr(self, 'mpair_style'):
+            md.pair_style = self.pair_style
+            md.cutoff_in = self.cutoff_in
+            md.cutoff_out = self.cutoff_out
+            md.kspace_style = self.kspace_style
+            md.kspace_style_accuracy = self.kspace_style_accuracy
+            md.bond_style = self.bond_style
+            md.angle_style = self.angle_style
+            md.dihedral_style = self.dihedral_style
+            md.improper_style = self.improper_style
+        else:
+            md.mpair_style = self.mpair_style
+            md.mlip_file = self.mlip_file
+            md.mlip_ptypes = self.mlip_ptypes
+            md.mbond_style = self.mbond_style
+            md.mangle_style = self.mangle_style
+            md.mdihedral_style = self.mdihedral_style
+            md.mimproper_style = self.mimproper_style
         md.neighbor = '%s bin' % self.neighbor_dis
         md.log_file = kwargs.get('log_file', self.log_file2)
         md.dat_file = kwargs.get('dat_file', self.dat_file2)
