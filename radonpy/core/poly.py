@@ -293,6 +293,30 @@ def combine_mols(mol1, mol2, res_name_1='RU0', res_name_2='RU0'):
         mol.SetProp('improper_style', mol1.GetProp('improper_style'))
     elif mol2.HasProp('improper_style'):
         mol.SetProp('improper_style', mol2.GetProp('improper_style'))
+    if mol1.HasProp('mpair_style'):
+        mol.SetProp('mpair_style', mol1.GetProp('mpair_style'))
+        mol.SetProp('mlip_file', mol1.GetProp('mlip_file'))
+        mol.SetProp('mlip_ptypes', mol1.GetProp('mlip_ptypes'))
+    elif mol2.HasProp('mpair_style'):
+        mol.SetProp('mpair_style', mol2.GetProp('mpair_style'))
+        mol.SetProp('mlip_file', mol2.GetProp('mlip_file'))
+        mol.SetProp('mlip_ptypes', mol2.GetProp('mlip_ptypes'))
+    if mol1.HasProp('mbond_style'):
+        mol.SetProp('mbond_style', mol1.GetProp('mbond_style'))
+    elif mol2.HasProp('mbond_style'):
+        mol.SetProp('mbond_style', mol2.GetProp('mbond_style'))
+    if mol1.HasProp('mangle_style'):
+        mol.SetProp('mangle_style', mol1.GetProp('mangle_style'))
+    elif mol2.HasProp('mangle_style'):
+        mol.SetProp('mangle_style', mol2.GetProp('mangle_style'))
+    if mol1.HasProp('mdihedral_style'):
+        mol.SetProp('mdihedral_style', mol1.GetProp('mdihedral_style'))
+    elif mol2.HasProp('mdihedral_style'):
+        mol.SetProp('mdihedral_style', mol2.GetProp('mdihedral_style'))
+    if mol1.HasProp('mimproper_style'):
+        mol.SetProp('mimproper_style', mol1.GetProp('mimproper_style'))
+    elif mol2.HasProp('mimproper_style'):
+        mol.SetProp('mimproper_style', mol2.GetProp('mimproper_style'))
     if mol1.HasProp('ff_name'):
         mol.SetProp('ff_name', mol1.GetProp('ff_name'))
     elif mol2.HasProp('ff_name'):
