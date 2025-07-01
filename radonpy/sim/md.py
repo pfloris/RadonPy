@@ -84,6 +84,19 @@ class MD():
             if mol.HasProp('improper_style'):
                 self.improper_style = mol.GetProp('improper_style')
 
+            if mol.HasProp('mpair_style'):
+                self.mpair_style = mol.GetProp('mpair_style')
+                self.mlip_file = mol.GetProp('mlip_file')
+                self.mlip_ptypes = mol.GetProp('mlip_ptypes')
+            if self.mol.HasProp('mbond_style'):
+                self.mbond_style = mol.GetProp('mbond_style')
+            if self.mol.HasProp('mangle_style'):
+                self.mangle_style = mol.GetProp('mangle_style')
+            if self.mol.HasProp('mdihedral_style'):
+                self.mdihedral_style = mol.GetProp('mdihedral_style')
+            if self.mol.HasProp('mimproper_style'):
+                self.mimproper_style = mol.GetProp('mimproper_style')
+
 
     def add_min(self, min_style='cg', etol=1.0e-4, ftol=1.0e-6, maxiter=10000, maxeval=100000):
         mini = Minimize(min_style=min_style, etol=etol, ftol=ftol, maxiter=maxiter, maxeval=maxeval)
