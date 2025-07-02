@@ -1234,7 +1234,7 @@ class Analyze():
             elif d_flag == 1:
                 columns = line.split()
                 d_flag = 2
-            elif d_flag >= 1 and (line.find('Loop time of') == 0 or line.find('ERROR') == 0 or line == ''):
+            elif d_flag >= 1 and (line.find('Loop time of') == 0 or line.find('ERROR') == 0 or line.find('WARNING') == 0 or line == ''):
                 df = pd.DataFrame(data, columns=columns)
                 if 'Step' in columns:
                     df = df.set_index('Step')
